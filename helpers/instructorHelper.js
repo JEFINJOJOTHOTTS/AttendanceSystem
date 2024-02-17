@@ -4,21 +4,23 @@ module.exports = {
 
     findInstructor: (insId) => {
         return new Promise(async (resolve, reject) => {
-            resolve(Instructor.find({ insId: insId }))
+            const instructor = await Instructor.findOne({ insId: insId }, { attendance: { $slice: -1 } });
+            resolve(instructor)
         })
     },
 
-    addNewIns: (data) => {
+    addNewIns: (insId, data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const ins = new Instructor({
-                    insId: data.id,
+                console.log('pppppppppppppp')
+                const instructor = new Instructor({
+                    insId: insId,
                     attendance: [{
                         in: data.dateTime
                     }]
                 });
-
-                await ins.save();
+                // console.log(instructor)
+                resolve(await instructor.save());
             } catch (err) {
 
             }
@@ -26,16 +28,18 @@ module.exports = {
         })
     },
 
-    addInData: (data) => {
+    addInData: (insId,data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                await Instructor.findOneAndUpdate({
-                    insId: data.insId
+                console.log("ffffffffffff")
+                const instructor = await Instructor.findOneAndUpdate({
+                    insId: insId
                 },
                     {
                         $push:
                             { attendance: { in: data.dateTime } }
                     })
+                resolve(instructor)
             } catch (err) {
 
             }

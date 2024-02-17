@@ -1,21 +1,21 @@
-import mongoose from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+const mongoose = require('mongoose');
+// import { v4 as uuidv4 } from 'uuid';
 
 const InsSchma = new mongoose.Schema(
     {
         insId: {
             type: String,
             required: true,
-            default: uuidv4(),
-        }, 
+        },
         attendance: [
             {
+                _id: false,
                 in: {
-                    type: Date,
+                    type: String,
                     required: true,
                 },
                 out: {
-                    type: Date,
+                    type: String,
                     required: false,
                 },
             },
@@ -31,6 +31,4 @@ const InsSchma = new mongoose.Schema(
     },
 );
 
-const Instructor = mongoose.model('instructor', InsSchma);
-
-export { Instructor as insModel };
+module.exports =new mongoose.model('Instructor', InsSchma);
