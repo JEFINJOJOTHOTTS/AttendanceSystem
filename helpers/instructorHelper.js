@@ -12,7 +12,6 @@ module.exports = {
     addNewIns: (insId, data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log('pppppppppppppp')
                 const instructor = new Instructor({
                     insId: insId,
                     attendance: [{
@@ -28,16 +27,15 @@ module.exports = {
         })
     },
 
-    addInData: (insId,data) => {
+    addDataTime: (insId,data, api) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log("ffffffffffff")
                 const instructor = await Instructor.findOneAndUpdate({
                     insId: insId
                 },
                     {
                         $push:
-                            { attendance: { in: data.dateTime } }
+                            { attendance: { api: data.dateTime } }
                     })
                 resolve(instructor)
             } catch (err) {

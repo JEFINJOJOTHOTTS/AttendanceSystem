@@ -5,6 +5,6 @@ const router = express.Router();
 const instructorController = require('../controllers/instructorController');
 
 router.post('/in', instructorController.inDateTime);
-router.post('/out', )
+router.post('/out', instructorController.outDateTime);
 
 module.exports = router;
