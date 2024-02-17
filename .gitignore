@@ -1,6 +1,11 @@
-# compiled output
-/dist
-/node_modules
+# Node modules
+node_modules
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+
+# Environment variables
 .env
 
 # Logs
@@ -12,25 +17,15 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# OS
-.DS_Store
+# Coverage directory
+coverage
 
-# Tests
-/coverage
-/.nyc_output
+# IDE settings
+.idea
+.vscode
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
+# Editor specific files
 *.sublime-workspace
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# OS specific files
+.DS_Store
