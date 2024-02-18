@@ -27,7 +27,7 @@ module.exports = {
         })
     },
 
-    addDataTime: (insId, data, api) => {
+    addInDataTime: (insId, dateTime) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const instructor = await Instructor.findOneAndUpdate({
@@ -35,7 +35,7 @@ module.exports = {
                 },
                     {
                         $push:
-                            { attendance: { api: data.dateTime } }
+                            { attendance: { in: dateTime } }
                     })
                 resolve(instructor)
             } catch (err) {
@@ -43,14 +43,22 @@ module.exports = {
             }
         })
     },
-
-    getReport: () => {
+    addOutDataTime: (insId, dateTime) => {
         return new Promise(async (resolve, reject) => {
-            const insId = "abcd"; 
-            const fromDate = new Date("2024-02-01T00:00:00.000Z"); 
-            const toDate = new Date("2024-02-10T23:00:00.000Z"); 
-            const pageSize = 20; 
-            const pageNum = 1;   
+            try {
+                const instructor = await Instructor.findOne({ insId });
+                const arrayPosition = instructor.attendance.length - 1;
+                instructor.attendance[arrayPosition].out = dateTime;
+                await instructor.save();
+                resolve(instructor)
+            } catch (err) {
+
+            }
+        })
+    },
+
+    getReport: (insId, fromDate, toDate, pageSize, pageNum) => {
+        return new Promise(async (resolve, reject) => {
 
             const report = await Instructor.aggregate([
                 {
@@ -123,15 +131,16 @@ module.exports = {
                     $group: {
                         _id: "$insId",
                         totalWorkingHours: { $sum: { $divide: ["$workingHours", 3600000] } },
-                        entries: { $push: { "in": "$in", "out": "$out", "workingHours": { $divide: ["$workingHours", 3600000] } } }
+                        attendance: { $push: { "in": "$in", "out": "$out", "workingHours": { $divide: ["$workingHours", 3600000] } } }
                     }
-                },
+                }
+                ,
                 {
                     $project: {
                         _id: 0,
                         totalWorkingHours: 1,
-                        entries: {
-                            $slice: ["$entries", (pageNum - 1) * pageSize, pageSize]
+                        attendance: {
+                            $slice: ["$attendance", (pageNum - 1) * pageSize, pageSize]
                         }
                     }
                 }

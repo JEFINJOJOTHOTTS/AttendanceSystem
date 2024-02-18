@@ -11,11 +11,11 @@ const InsSchma = new mongoose.Schema(
             {
                 _id: false,
                 in: {
-                    type: String,
+                    type: Date,
                     required: true,
                 },
                 out: {
-                    type:String,
+                    type:Date,
                     default: null,
                 },
             },
