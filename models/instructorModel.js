@@ -15,8 +15,8 @@ const InsSchma = new mongoose.Schema(
                     required: true,
                 },
                 out: {
-                    type: String,
-                    required: false,
+                    type:String,
+                    default: null,
                 },
             },
         ],
@@ -31,4 +31,4 @@ const InsSchma = new mongoose.Schema(
     },
 );
 
-module.exports =new mongoose.model('Instructor', InsSchma);
+module.exports = new mongoose.model('Instructor', InsSchma);

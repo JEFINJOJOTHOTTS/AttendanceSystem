@@ -41,8 +41,24 @@ const outDateTime = async (req, res) => {
     }
 }
 
+const getReport = async (req, res) => {
+    try {
+        console.log("????????")
+        const report = await instructorHelper.getReport();
+        console.log(report)
+        res.status(200).json(report);
+        // res.status(500).json({ message: error.message });
+        // res.status(404)
+        //     .json({ message: `cannot find any product with ID ${id}` });
+
+
+    } catch (err) {
+
+    }
+}
 
 module.exports = {
     inDateTime,
-    outDateTime
+    outDateTime,
+    getReport
 }

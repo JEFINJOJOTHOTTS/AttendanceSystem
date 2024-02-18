@@ -7,4 +7,5 @@ const instructorController = require('../controllers/instructorController');
 router.post('/in', instructorController.inDateTime);
 router.post('/out', instructorController.outDateTime);
 
+router.get('/', instructorController.getReport)
 module.exports = router;
