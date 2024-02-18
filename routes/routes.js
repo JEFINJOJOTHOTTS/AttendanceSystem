@@ -7,5 +7,5 @@ const instructorController = require('../controllers/instructorController');
 router.post('/in',validation.dateTimeValidation, instructorController.inDateTime);
 router.post('/out',validation.dateTimeValidation, instructorController.outDateTime);
 
-router.get('/',validation.dateTimeValidation, instructorController.getReport)
+router.post('/', instructorController.getReport)
 module.exports = router;

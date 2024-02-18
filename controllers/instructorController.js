@@ -51,8 +51,8 @@ const outDateTime = async (req, res) => {
         const insId = "abcde";
         const dateTime = new Date(req.body.dateTime);
         const ins = await instructorHelper.findInstructor(insId);
-        if (ins) {
-            if (ins.attendance[0].in && !ins.attendance[0].out && ins.attendance[0].in<dateTime) {
+        if (ins&& ins.attendance[0].in && !ins.attendance[0].out) {
+            if (ins.attendance[0].in<dateTime) {
                  if (await checkOverlap(insId,ins.attendance[0].in, dateTime) ) {
 
                     const addedData = await instructorHelper.addOutDataTime(insId, dateTime)
@@ -61,7 +61,7 @@ const outDateTime = async (req, res) => {
                     console.log('overlap');
                 }
             } else {
-                console.log("need to In")
+                console.log("out time less than in time")
             }
         } else {
             console.log("need to In")
@@ -76,10 +76,10 @@ const outDateTime = async (req, res) => {
 const getReport = async (req, res) => {
     try {
         const insId = "abcde";
-        const fromDate = new Date("2024-02-01T00:00:00.000Z");
-        const toDate = new Date("2024-02-10T23:00:00.000Z");
+        const fromDate = new Date(req.body.fromDate);
+        const toDate = new Date(req.body.toDate);
         const pageSize = 20;
-        const pageNum = 1;
+        const pageNum = req.body.pageNo||1;
 
         const report = await instructorHelper.getReport(insId, fromDate, toDate, pageSize, pageNum);
         console.log(report)

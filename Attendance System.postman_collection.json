@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "c7568519-2fcd-4108-b39d-36a24f33f2c0",
+		"name": "Attendance System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28557665"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/out",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"dateTime\":\"2024-02-01T08:00:00\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/out",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"out"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"dateTime\":\"2024-02-01T08:00:00\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/out",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"out"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fromDate\":\"2024-02-01T08:00\",\r\n    \"toDate\":\"2024-02-01T08:00\",\r\n    \"pageNo\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -126,6 +126,8 @@ module.exports = {
                             }
                         }
                     }
+                }, {
+                    $sort: { in: 1 }
                 },
                 {
                     $group: {
