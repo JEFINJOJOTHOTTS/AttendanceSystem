@@ -22,7 +22,7 @@ async function checkOverlap(insId, inDateTime, outDateTime) {
 //in - post
 const inDateTime = async (req, res) => {
     try {
-        const insId = "abcd";
+        const insId = "abcde";
         const dateTime = new Date(req.body.dateTime);
 
         const ins = await instructorHelper.findInstructor(insId);
@@ -48,7 +48,7 @@ const inDateTime = async (req, res) => {
 //out - post
 const outDateTime = async (req, res) => {
     try {
-        const insId = "abcd";
+        const insId = "abcde";
         const dateTime = new Date(req.body.dateTime);
         const ins = await instructorHelper.findInstructor(insId);
         if (ins) {
@@ -75,8 +75,7 @@ const outDateTime = async (req, res) => {
 
 const getReport = async (req, res) => {
     try {
-        console.log("????????")
-        const insId = "abcd";
+        const insId = "abcde";
         const fromDate = new Date("2024-02-01T00:00:00.000Z");
         const toDate = new Date("2024-02-10T23:00:00.000Z");
         const pageSize = 20;
@@ -98,5 +97,6 @@ const getReport = async (req, res) => {
 module.exports = {
     inDateTime,
     outDateTime,
-    getReport
+    getReport,
+    checkOverlap
 }

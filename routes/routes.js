@@ -5,7 +5,7 @@ const validation = require('../middleware/validation')
 const instructorController = require('../controllers/instructorController');
 
 router.post('/in',validation.dateTimeValidation, instructorController.inDateTime);
-router.post('/out', instructorController.outDateTime);
+router.post('/out',validation.dateTimeValidation, instructorController.outDateTime);
 
-router.get('/', instructorController.getReport)
+router.get('/',validation.dateTimeValidation, instructorController.getReport)
 module.exports = router;
