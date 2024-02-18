@@ -45,4 +45,4 @@ const reportRequestValidation = (req, res, next) => {
 }
 
 
-module.exports = { dateTimeValidation }
+module.exports = { dateTimeValidation ,reportRequestValidation}

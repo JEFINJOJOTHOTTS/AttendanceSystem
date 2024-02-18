@@ -2,13 +2,20 @@ const Instructor = require('../models/instructorModel');
 
 module.exports = {
 
+    //find last object on attendance array; purpose- does instructor exist, last update is in or out mark
     findInstructor: (insId) => {
         return new Promise(async (resolve, reject) => {
-            const instructor = await Instructor.findOne({ insId: insId }, { attendance: { $slice: -1 } });
-            resolve(instructor)
+            try {
+                const instructor = await Instructor.findOne({ insId: insId }, { attendance: { $slice: -1 } });
+                resolve(instructor);
+
+            } catch (err) {
+                reject();
+            }
         })
     },
 
+    //add new instructor and the in attendance mark
     addNewIns: (insId, data) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -18,7 +25,6 @@ module.exports = {
                         in: data.dateTime
                     }]
                 });
-                // console.log(instructor)
                 resolve(await instructor.save());
             } catch (err) {
                 reject();
@@ -27,6 +33,7 @@ module.exports = {
         })
     },
 
+    // add inDateTime attendance mark 
     addInDataTime: (insId, dateTime) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -43,6 +50,8 @@ module.exports = {
             }
         })
     },
+
+    //add outDateTime to last object
     addOutDataTime: (insId, dateTime) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -57,10 +66,12 @@ module.exports = {
         })
     },
 
+    //get report on the from and todate
     getReport: (insId, fromDate, toDate, pageSize, pageNum) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const report = await Instructor.aggregate([
+                    //choose the document
                     {
                         $match: {
                             "insId": insId,
@@ -80,9 +91,11 @@ module.exports = {
 
                         }
                     },
+                    // array to seperate objects
                     {
                         $unwind: "$attendance"
                     },
+                    //choose the matching documents unwinded
                     {
                         $match: {
                             $or: [
@@ -99,7 +112,7 @@ module.exports = {
                             ]
                         }
                     },
-
+                    //project in, out, working hours
                     {
                         $project: {
                             insId: 1,
@@ -108,6 +121,9 @@ module.exports = {
                             workingHours: {
                                 $cond: {
                                     if: {
+                                        /*out attendance dateTime is replaced by toDate if the out attendance is not marked 
+                                        or out attendance is greater than toDate
+                                        */
                                         $or: [
                                             { $eq: ["$attendance.out", null] },
                                             { $gte: ["$attendance.out", toDate] }
@@ -118,8 +134,14 @@ module.exports = {
                                     },
                                     else: {
                                         $cond: {
-                                            if: { $lte: ["$attendance.in", fromDate] },
+                                            if: {
+                                                /*in attendance dateTime is replaced by fromDate if the in
+                                                 attendance is greater than toDate
+                                                */
+                                                $lte: ["$attendance.in", fromDate]
+                                            },
                                             then: { $subtract: ["$attendance.out", fromDate] },
+                                            //normal condition where both in and out attendance mark are between the from and todate
                                             else: { $subtract: ["$attendance.out", "$attendance.in"] }
                                         }
                                     }
@@ -127,16 +149,17 @@ module.exports = {
                             }
                         }
                     }, {
-                        $sort: { in: 1 }
+                        $sort: { in: 1 }// sorting 'in' attendance 
                     },
+                    // convert object to array
                     {
                         $group: {
                             _id: "$insId",
-                            totalWorkingHours: { $sum: { $divide: ["$workingHours", 3600000] } },
+                            totalWorkingHours: { $sum: { $divide: ["$workingHours", 3600000] } },//'/3600000 convert milliseconds to hour
                             attendance: { $push: { "in": "$in", "out": "$out", "workingHours": { $divide: ["$workingHours", 3600000] } } }
                         }
-                    }
-                    ,
+                    },
+                    //pagination
                     {
                         $project: {
                             _id: 0,
@@ -147,8 +170,6 @@ module.exports = {
                         }
                     }
                 ]);
-
-
                 resolve(report)
             } catch (err) {
                 reject()
