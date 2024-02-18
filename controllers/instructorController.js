@@ -28,7 +28,7 @@ const inDateTime = async (req, res) => {
         const ins = await instructorHelper.findInstructor(insId);
         if (ins) {
             if (ins.attendance[0].out) {
-                if (await (checkOverlap(insId, dateTime))) {
+                if (await checkOverlap(insId, dateTime)) {
                     const addedData = await instructorHelper.addInDataTime(insId, dateTime)
                 } else {
                     console.log("overlap")
@@ -52,7 +52,7 @@ const outDateTime = async (req, res) => {
         const dateTime = new Date(req.body.dateTime);
         const ins = await instructorHelper.findInstructor(insId);
         if (ins) {
-            if (ins.attendance[0].in && !ins.attendance[0].out) {
+            if (ins.attendance[0].in && !ins.attendance[0].out && ins.attendance[0].in<dateTime) {
                  if (await checkOverlap(insId,ins.attendance[0].in, dateTime) ) {
 
                     const addedData = await instructorHelper.addOutDataTime(insId, dateTime)
