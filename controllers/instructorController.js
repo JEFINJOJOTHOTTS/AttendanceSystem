@@ -84,10 +84,7 @@ const getReport = async (req, res) => {
         const report = await instructorHelper.getReport(insId, fromDate, toDate, pageSize, pageNum);
         console.log(report)
         res.status(200).json(report);
-        // res.status(500).json({ message: error.message });
-        // res.status(404)
-        //     .json({ message: `cannot find any product with ID ${id}` });
-
+    
 
     } catch (err) {
 
