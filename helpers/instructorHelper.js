@@ -21,7 +21,7 @@ module.exports = {
                 // console.log(instructor)
                 resolve(await instructor.save());
             } catch (err) {
-
+                reject();
             }
 
         })
@@ -39,7 +39,7 @@ module.exports = {
                     })
                 resolve(instructor)
             } catch (err) {
-
+                reject();
             }
         })
     },
@@ -52,105 +52,109 @@ module.exports = {
                 await instructor.save();
                 resolve(instructor)
             } catch (err) {
-
+                reject()
             }
         })
     },
 
     getReport: (insId, fromDate, toDate, pageSize, pageNum) => {
         return new Promise(async (resolve, reject) => {
-
-            const report = await Instructor.aggregate([
-                {
-                    $match: {
-                        "insId": insId,
-                        $or: [
-                            {
-                                $and: [
-                                    { "attendance.in": { $gte: fromDate, $lte: toDate } },
-                                    { "attendance.out": null }]
-                            }, {
-                                $and: [
-                                    { "attendance.in": { $lte: toDate } },
-                                    { "attendance.out": { $gte: fromDate } }
-                                ]
-                            }
-                        ]
-
-
-                    }
-                },
-                {
-                    $unwind: "$attendance"
-                },
-                {
-                    $match: {
-                        $or: [
-                            {
-                                $and: [
-                                    { "attendance.in": { $gte: fromDate, $lte: toDate } },
-                                    { "attendance.out": null }]
-                            }, {
-                                $and: [
-                                    { "attendance.in": { $lte: toDate } },
-                                    { "attendance.out": { $gte: fromDate } }
-                                ]
-                            }
-                        ]
-                    }
-                },
-
-                {
-                    $project: {
-                        insId: 1,
-                        in: "$attendance.in",
-                        out: "$attendance.out",
-                        workingHours: {
-                            $cond: {
-                                if: {
-                                    $or: [
-                                        { $eq: ["$attendance.out", null] },
-                                        { $gte: ["$attendance.out", toDate] }
+            try {
+                const report = await Instructor.aggregate([
+                    {
+                        $match: {
+                            "insId": insId,
+                            $or: [
+                                {
+                                    $and: [
+                                        { "attendance.in": { $gte: fromDate, $lte: toDate } },
+                                        { "attendance.out": null }]
+                                }, {
+                                    $and: [
+                                        { "attendance.in": { $lte: toDate } },
+                                        { "attendance.out": { $gte: fromDate } }
                                     ]
-                                },
-                                then: {
-                                    $subtract: [toDate, "$attendance.in"]
-                                },
-                                else: {
-                                    $cond: {
-                                        if: { $lte: ["$attendance.in", fromDate] },
-                                        then: { $subtract: ["$attendance.out", fromDate] },
-                                        else: { $subtract: ["$attendance.out", "$attendance.in"] }
+                                }
+                            ]
+
+
+                        }
+                    },
+                    {
+                        $unwind: "$attendance"
+                    },
+                    {
+                        $match: {
+                            $or: [
+                                {
+                                    $and: [
+                                        { "attendance.in": { $gte: fromDate, $lte: toDate } },
+                                        { "attendance.out": null }]
+                                }, {
+                                    $and: [
+                                        { "attendance.in": { $lte: toDate } },
+                                        { "attendance.out": { $gte: fromDate } }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+
+                    {
+                        $project: {
+                            insId: 1,
+                            in: "$attendance.in",
+                            out: "$attendance.out",
+                            workingHours: {
+                                $cond: {
+                                    if: {
+                                        $or: [
+                                            { $eq: ["$attendance.out", null] },
+                                            { $gte: ["$attendance.out", toDate] }
+                                        ]
+                                    },
+                                    then: {
+                                        $subtract: [toDate, "$attendance.in"]
+                                    },
+                                    else: {
+                                        $cond: {
+                                            if: { $lte: ["$attendance.in", fromDate] },
+                                            then: { $subtract: ["$attendance.out", fromDate] },
+                                            else: { $subtract: ["$attendance.out", "$attendance.in"] }
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                }, {
-                    $sort: { in: 1 }
-                },
-                {
-                    $group: {
-                        _id: "$insId",
-                        totalWorkingHours: { $sum: { $divide: ["$workingHours", 3600000] } },
-                        attendance: { $push: { "in": "$in", "out": "$out", "workingHours": { $divide: ["$workingHours", 3600000] } } }
-                    }
-                }
-                ,
-                {
-                    $project: {
-                        _id: 0,
-                        totalWorkingHours: 1,
-                        attendance: {
-                            $slice: ["$attendance", (pageNum - 1) * pageSize, pageSize]
+                    }, {
+                        $sort: { in: 1 }
+                    },
+                    {
+                        $group: {
+                            _id: "$insId",
+                            totalWorkingHours: { $sum: { $divide: ["$workingHours", 3600000] } },
+                            attendance: { $push: { "in": "$in", "out": "$out", "workingHours": { $divide: ["$workingHours", 3600000] } } }
                         }
                     }
-                }
-            ]);
+                    ,
+                    {
+                        $project: {
+                            _id: 0,
+                            totalWorkingHours: 1,
+                            attendance: {
+                                $slice: ["$attendance", (pageNum - 1) * pageSize, pageSize]
+                            }
+                        }
+                    }
+                ]);
 
 
-            resolve(report)
+                resolve(report)
+            } catch (err) {
+                reject()
+            }
         })
+
     }
 
 }
