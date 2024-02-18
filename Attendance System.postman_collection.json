@@ -48,13 +48,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/out",
+					"raw": "localhost:3000/in",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"out"
+						"in"
 					]
 				}
 			},
