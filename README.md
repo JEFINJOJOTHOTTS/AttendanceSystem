@@ -75,9 +75,9 @@ The API documentation is available as a Postman collection. You can download it 
 4. Click "Import" to import the collection into your Postman workspace.
 
 ### API Endpoints
-- **/api/checkin**: Endpoint for recording instructor check-in times.
-- **/api/checkout**: Endpoint for recording instructor check-out times.
-- **/api/reports**: Endpoint for generating attendance reports.
+- **/in**: Endpoint for recording instructor check-in times.
+- **/out**: Endpoint for recording instructor check-out times.
+- **/**: Endpoint for generating attendance reports.
 
 ### Running
 
