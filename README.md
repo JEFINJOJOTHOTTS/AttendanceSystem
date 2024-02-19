@@ -7,3 +7,9 @@ The system ensures data integrity and offers aggregated reports based on specifi
 ## Features
 - **Check-In/Check-Out Management**: APIs to record and validate instructors' attendance time & dates.
 - **Custom Reports**: Generate aggregated reports based on specified date ranges.
+
+## Technologies Used
+- **Node.js**
+- **Express.js**
+- **MongoDB**
+- **Jest (for testing)**
