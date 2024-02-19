@@ -8,11 +8,10 @@ const dateTimeValidation = (req, res, next) => {
 
         if (!matchDateRex) {
             res.status(400).send("invalid date format");
-        }
-        if(!dateBan){
+        } else if (!dateBan) {
             res.status(400).send("post date attendance cannot be marked")
-        }
-        next()
+        } else { next() }
+
     }
     catch (err) {
 
@@ -33,11 +32,10 @@ const reportRequestValidation = (req, res, next) => {
         const toDateBan = (toDate < new Date() && toDate > new Date('2022-01-01T00:00')) ? true : false;
         if (!matchFromDateRex || !matchToDateRex) {
             res.status(400).send("invalid date format");
-        }
-        if (!fromDateBan || !toDateBan) {
+        } else if (!fromDateBan || !toDateBan) {
             res.status(400).send("post date report cannot be enter");
-        }
-        next();
+        } else { next(); }
+
     }
     catch (err) {
 
@@ -45,4 +43,4 @@ const reportRequestValidation = (req, res, next) => {
 }
 
 
-module.exports = { dateTimeValidation ,reportRequestValidation}
+module.exports = { dateTimeValidation, reportRequestValidation }

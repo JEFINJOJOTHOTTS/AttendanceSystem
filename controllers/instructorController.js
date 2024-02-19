@@ -26,7 +26,7 @@ async function checkOverlap(insId, inDateTime, outDateTime) {
 //in Attendance - post- method
 const inDateTime = async (req, res) => {
     try {
-        const insId = "abcde";
+        const insId = req.insId;
         const dateTime = new Date(req.body.dateTime);// string for to date format convertion
 
         //get last object of attendance array in instructor document
@@ -39,7 +39,7 @@ const inDateTime = async (req, res) => {
 
                     // database entry
                     instructorHelper.addInDataTime(insId, dateTime).then((data) => {
-                        res.status(200).send(`success`)
+                        res.status(200).json({ message: `success` })
                     }).catch(() => {
                         res.status(500).json({ message: `db error; try again` })
                     });
@@ -74,7 +74,7 @@ const inDateTime = async (req, res) => {
 //outDateTime Attendance - method- post
 const outDateTime = async (req, res) => {
     try {
-        const insId = "abcde";
+        const insId = req.insId;
         const dateTime = new Date(req.body.dateTime);// string for to date format convertion
 
         //get last object of attendance array in instructor document

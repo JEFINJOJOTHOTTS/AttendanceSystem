@@ -16,12 +16,21 @@ The system ensures data integrity and offers aggregated reports based on specifi
 
 # Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Configuration](#configuration)
-  - [API Documentation](#APIDocumentation)
-  - [Running](#running)
-  - [Testing](#testing)
+- [Institute Instructor Attendance System](#institute-instructor-attendance-system)
+  - [Features](#features)
+  - [Technologies Used](#technologies-used)
+- [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Configuration](#configuration)
+      - [Example .env file:](#example-env-file)
+  - [API Documentation](#api-documentation)
+    - [Using Postman Collection](#using-postman-collection)
+    - [Importing into Postman](#importing-into-postman)
+    - [API Endpoints](#api-endpoints)
+    - [Running](#running)
+    - [Testing](#testing)
+    - [Assumptions:](#assumptions)
 
 ## Installation
 
@@ -58,6 +67,9 @@ PORT="3000"
 # Database Connection
 DATABASE_URL="mongodb://127.0.0.1:27017/ProAttendance"
 or run on mongodb atlas -provide url;
+
+#JWT
+JWT_SECRET=This_is_my_secret  or prefered key
 ```
 ## API Documentation
 
@@ -91,3 +103,12 @@ Unit testing is only provided for 'checkOverlap' method in the Institute Instruc
 ```bash
 npx jest
 ```
+### Assumptions:
+
+- Instructors can check in and check out at any time within the specified time frame. However, checking in or out after the current date and time is not allowed.
+- Working hours can extend beyond a single day without requiring a check out, allowing for longer working hours.
+- The API only accepts a check out request after a check in request, and vice versa.
+Report:
+- Reports cannot be generated for dates beyond the current date.
+- If an instructor hasn't checked out by the report's end date, or if the check out date is after the report's end date, the report will include the working hours up to the end date.
+- If the check in time is before the start date and the check out time is after the end date, the working hours are calculated from the start date.
