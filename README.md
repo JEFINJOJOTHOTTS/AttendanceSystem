@@ -44,3 +44,29 @@ The system ensures data integrity and offers aggregated reports based on specifi
     ```bash
     npm install
     ```
+    
+## Usage
+
+### Configuration
+
+To configure your project, create a `.env` file in the root directory of the project and add the following environment variables:
+
+#### Example .env file:
+
+```plaintext
+# Server Configuration
+PORT="3000"
+
+# Database Connection
+DATABASE_URL="mongodb://127.0.0.1:27017/ProAttendance"
+or run on mongodb atlas -provide url;
+```
+
+
+### Running
+
+To run the Institute Instructor Attendance System:
+
+```bash
+nodemon app.js
+```
