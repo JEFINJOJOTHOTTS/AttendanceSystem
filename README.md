@@ -61,6 +61,11 @@ PORT="3000"
 DATABASE_URL="mongodb://127.0.0.1:27017/ProAttendance"
 or run on mongodb atlas -provide url;
 ```
+## API Documentation
+
+### Using Postman Collection
+
+The API documentation is available as a Postman collection. You can download it [here](./Attendance%20System.postman_collection.json).
 
 
 ### Running
