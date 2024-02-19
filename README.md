@@ -22,8 +22,6 @@ The system ensures data integrity and offers aggregated reports based on specifi
   - [API Documentation](#APIDocumentation)
   - [Running](#running)
   - [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
@@ -85,4 +83,11 @@ To run the Institute Instructor Attendance System:
 
 ```bash
 nodemon app.js
+```
+### Testing
+
+Unit testing is only provided for 'checkOverlap' method in the Institute Instructor Attendance System usning Jest, for testing:
+
+```bash
+npx jest
 ```
