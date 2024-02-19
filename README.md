@@ -72,7 +72,7 @@ or run on mongodb atlas -provide url;
 #JWT
 JWT_SECRET=This_is_my_secret  or prefered key
 ```
-### jwt token creation 
+#### jwt token creation 
 need to create jwt token with payload {'insId':instructorId}  with the provided jwt secret.
 replace the bearer token with the created on.
 
