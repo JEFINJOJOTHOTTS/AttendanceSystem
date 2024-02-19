@@ -1,27 +1,27 @@
 const instructorHelper = require('../helpers/instructorHelper');
 
-//checkOverLap for both in and out attendance marking
+//checkOverlap for both in and out attendance marking
 async function checkOverlap(insId, inDateTime, outDateTime) {
-    const outDateTimeUpdate = outDateTime ? outDateTime : inDateTime; //for inDateTime entry thr wont be outDateTime 
-    const pageSize = 20; //no. of data limit in single page 
-    const pageNum = 1;  //default page choosen
+    const outDateTimeUpdate = outDateTime ? outDateTime : inDateTime; // for inDateTime entry there won't be outDateTime 
+    const pageSize = 20; // no. of data limit in single page 
+    const pageNum = 1; // default page chosen
 
-    //the active attendance entry on the day
-    instructorHelper.getReport(insId, inDateTime, outDateTimeUpdate, pageSize, pageNum).then(() => {
+    try {
+        const report = await instructorHelper.getReport(insId, inDateTime, outDateTimeUpdate, pageSize, pageNum);
 
         for (const date of report[0].attendance) {
-            // checking each object of in and out date pair comparing with inDatetTime and outDateTime; outDateTime = inDateTime on attendance marking for In
+            // checking each object of in and out date pair comparing with inDateTime and outDateTime; outDateTime = inDateTime on attendance marking for In
             if ((outDateTimeUpdate >= date.in && outDateTimeUpdate <= date.out) || (inDateTime <= date.in && outDateTimeUpdate >= date.out)) {
                 return false;
             }
         }
-        return true;// no overlapping - return true
-
-    }).catch(() => {
-        res.status(500).json({ message: `db error; try again` })
-    });
-
+        return true; // no overlapping - return true
+    } catch (error) {
+        throw new Error('Database error occurred');
+    }
 }
+
+
 
 //in Attendance - post- method
 const inDateTime = async (req, res) => {

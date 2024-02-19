@@ -1,3 +1,4 @@
+
 const { checkOverlap } = require('../controllers/instructorController');
 const instructorHelper = require('../helpers/instructorHelper');
 
@@ -5,7 +6,6 @@ const instructorHelper = require('../helpers/instructorHelper');
 jest.mock('../helpers/instructorHelper', () => ({
     getReport: jest.fn(),
 }));
-
 
 describe('checkOverlap function', () => {
     afterEach(() => {
@@ -57,4 +57,18 @@ describe('checkOverlap function', () => {
         expect(result).toBe(true);
     });
 
+    test('should handle database error', async () => {
+        const insId = 'exampleInsId';
+        const inDateTime = new Date('2024-02-19T08:00:00');
+        const outDateTime = new Date('2024-02-19T09:00:00');
+    
+        // Mocking the getReport function to throw an error
+        instructorHelper.getReport.mockRejectedValueOnce(new Error('Database error occurred'));
+    
+        // Expecting checkOverlap to throw an error and catching it
+        await expect(checkOverlap(insId, inDateTime, outDateTime)).rejects.toThrow('Database error occurred');
+    
+        // Verify that getReport was called with the correct arguments
+        expect(instructorHelper.getReport).toHaveBeenCalledWith(insId, inDateTime, outDateTime, 20, 1);
+    });
 });
