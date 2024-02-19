@@ -7,8 +7,18 @@
 	},
 	"item": [
 		{
-			"name": "localhost:3000/out",
+			"name": "localhost:3000/checkOut",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MDgzMzY4MTMsImV4cCI6MTczOTg3MjgxMywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsImluc0lkIjoiMTIzNDUifQ.d52qAFfih5187W_rVc6rgbNkYIzodwdlsFMCLXKisNc",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -21,26 +31,36 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/out",
+					"raw": "localhost:3000/checkOut",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"out"
+						"checkOut"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:3000/in",
+			"name": "localhost:3000/checkIn",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MDgzMzY4MTMsImV4cCI6MTczOTg3MjgxMywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsImluc0lkIjoiMTIzNDUifQ.d52qAFfih5187W_rVc6rgbNkYIzodwdlsFMCLXKisNc",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"dateTime\":\"2024-02-31T08:00\"}",
+					"raw": "{\"dateTime\":\"2024-01-31T18:00\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,13 +68,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/in",
+					"raw": "localhost:3000/checkIn",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"in"
+						"checkIn"
 					]
 				}
 			},
@@ -67,7 +87,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"fromDate\":\"2024-02-01T08:00\",\r\n    \"toDate\":\"2024-02-01T08:00\",\r\n    \"pageNo\":1\r\n}",
+					"raw": "{\r\n    \"fromDate\":\"2024-02-19\",\r\n    \"toDate\":\"2024-02-19\",\r\n    \"insId\":\"12345\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

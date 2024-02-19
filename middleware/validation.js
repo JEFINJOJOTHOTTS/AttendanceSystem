@@ -34,6 +34,9 @@ const reportRequestValidation = (req, res, next) => {
             res.status(400).send("invalid date format");
         } else if (!fromDateBan || !toDateBan) {
             res.status(400).send("post date report cannot be enter");
+        } else if (req.body.insId.length = 0) {
+            res.status(400).send('need to enter instructor Id')
+
         } else { next(); }
 
     }

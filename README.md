@@ -24,6 +24,7 @@ The system ensures data integrity and offers aggregated reports based on specifi
   - [Usage](#usage)
     - [Configuration](#configuration)
       - [Example .env file:](#example-env-file)
+    - [jwt token creation](#jwt-token-creation)
   - [API Documentation](#api-documentation)
     - [Using Postman Collection](#using-postman-collection)
     - [Importing into Postman](#importing-into-postman)
@@ -71,6 +72,11 @@ or run on mongodb atlas -provide url;
 #JWT
 JWT_SECRET=This_is_my_secret  or prefered key
 ```
+### jwt token creation 
+need to create jwt token with payload {'insId':instructorId}  with the provided jwt secret.
+replace the bearer token with the created on.
+
+
 ## API Documentation
 
 ### Using Postman Collection
@@ -112,3 +118,4 @@ Report:
 - Reports cannot be generated for dates beyond the current date.
 - If an instructor hasn't checked out by the report's end date, or if the check out date is after the report's end date, the report will include the working hours up to the end date.
 - If the check in time is before the start date and the check out time is after the end date, the working hours are calculated from the start date.
+- correspoding instructor Id need to be provided along with the from and toDate 

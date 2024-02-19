@@ -11,7 +11,7 @@ async function checkOverlap(insId, inDateTime, outDateTime) {
 
         for (const date of report[0].attendance) {
             // checking each object of in and out date pair comparing with inDateTime and outDateTime; outDateTime = inDateTime on attendance marking for In
-            if ((outDateTimeUpdate >= date.in && outDateTimeUpdate <= date.out) || (inDateTime <= date.in && outDateTimeUpdate >= date.out)) {
+            if ((outDateTimeUpdate >= date.in && outDateTimeUpdate <= date.out) || (inDateTime < date.in && outDateTimeUpdate >= date.out)) {
                 return false;
             }
         }
@@ -122,14 +122,18 @@ const outDateTime = async (req, res) => {
 
 const getReport = async (req, res) => {
     try {
-        const insId = "abcde";
+        const insId = req.body.insId;
         const fromDate = new Date(req.body.fromDate);
         const toDate = new Date(req.body.toDate);
         const pageSize = 20;//no. of data limit in single page
         const pageNum = req.body.pageNo || 1;//pagination page number
         //fetch report from db
         instructorHelper.getReport(insId, fromDate, toDate, pageSize, pageNum).then((report) => {
-            res.status(200).json(report);
+            if(report.length==0){
+                res.status(400).json({message:`instructor doesnot exist`});
+            }else{
+                res.status(200).json(report);
+            }
         }).catch(() => {
             res.status(500).send('db error; try again');
         });
