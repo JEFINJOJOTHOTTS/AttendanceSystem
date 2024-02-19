@@ -67,6 +67,17 @@ or run on mongodb atlas -provide url;
 
 The API documentation is available as a Postman collection. You can download it [here](./Attendance%20System.postman_collection.json).
 
+### Importing into Postman
+
+1. Open Postman.
+2. Click on the "Import" button in the top left corner.
+3. Select "Import From Link" and paste the link to the downloaded Postman collection.
+4. Click "Import" to import the collection into your Postman workspace.
+
+### API Endpoints
+- **/api/checkin**: Endpoint for recording instructor check-in times.
+- **/api/checkout**: Endpoint for recording instructor check-out times.
+- **/api/reports**: Endpoint for generating attendance reports.
 
 ### Running
 
